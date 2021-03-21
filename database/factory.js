@@ -1,5 +1,5 @@
 'use strict'
-
+const Factory = use('Factory')
 /*
 |--------------------------------------------------------------------------
 | Factory
@@ -19,3 +19,13 @@
 //     username: faker.username()
 //   }
 // })
+
+Factory.blueprint('App/Models/User', (faker) => {
+  return {
+   name:faker.first(),
+   username: faker.username(),
+   email: faker.email({domain: 'tmenu.com'}),
+   password: '123456',
+   phone: faker.phone()
+  }
+})
