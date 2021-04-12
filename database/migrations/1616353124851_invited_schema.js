@@ -9,6 +9,7 @@ class InvitedSchema extends Schema {
       table.increments()
       table.string('name').notNullable()
       table.string('phone')
+      table.string('slug').notNullable().uniqui()
       table.integer('number_companions').notNullable().defaultTo(0)
       table.timestamps()
       table.integer('party_id')

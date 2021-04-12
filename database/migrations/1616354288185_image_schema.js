@@ -14,7 +14,6 @@ class ImageSchema extends Schema {
       table.foreign('invit_id').references('invits.id').onDelete('cascade')
     })
   }
-
   down () {
     this.drop('images')
   }

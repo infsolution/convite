@@ -41,7 +41,9 @@ class InvitedController {
   async store ({ request, response, auth }) {
     try {
       const data = request.all()
-      const invited = await Invited.create({...data})
+      let name = data.name.toLowerCase()
+      name = name.replace(/ /g, "-")
+      const invited = await Invited.create({...data, slug:name})
       return response.status(201).send({invited})
     } catch (error) {
       return response.status(400).send({error:error.message})

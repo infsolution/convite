@@ -15,6 +15,9 @@ class AddressSchema extends Schema {
       table.string('complement',512)
       table.string('country', 128)
       table.string('zipcode',12)
+      table.string('latitude')
+      table.string('longitude')
+      table.string('place')
       table.timestamps()
     })
   }
