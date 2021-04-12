@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class Invited extends Model {
+    qrcode(){
+        return this.hasOne('App/Models/Qrcode')
+    }
 }
 
 module.exports = Invited

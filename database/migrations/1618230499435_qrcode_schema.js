@@ -8,7 +8,7 @@ class QrcodeSchema extends Schema {
     this.create('qrcodes', (table) => {
       table.increments()
       table.string('path',256).notNullable()
-      table.integer('invited').notNullable()
+      table.integer('invited_id').notNullable()
       table.timestamps()
     })
   }
