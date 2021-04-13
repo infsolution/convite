@@ -12,7 +12,7 @@ class InvitedSchema extends Schema {
       table.string('slug').notNullable().unique()
       table.integer('number_companions').notNullable().defaultTo(0)
       table.boolean('confirmation').notNullable().defaultTo(false)
-      table.timestamps('date_confirmation')
+      table.date('date_confirmation')
       table.timestamps()
       table.integer('party_id')
       table.foreign('party_id').references('parties.id').onDelete('cascade')
