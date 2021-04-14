@@ -13,21 +13,25 @@ class InvitController {
    */
   async invite ({ params, request, response }) {
     try {
-      const invited = await Invited.query().where('slug',params.invited)
-      .with('qrcode')
-      .first()
+      const data = {}
+      const invited = await Invited.query().where('id',params.id).first()
       if(!invited){
         return response.status(400).send({error: 'Dados não encontrados!'})
       }
-      const party = await Party.query().where('id',params.id)
-      .with('partyHost')
-      .with('address')
-      .first()
+      data.invited = invited
+      const qrcode = await invited.qrcode().first()
+      data.qrcode = qrcode
+      const party = await Party.query().where('id',invited.party_id).first()
       if(!party){
         return response.status(400).send({error: 'Dados não encontrados!'})
       }
-      party.invited = invited
-      return response.send({party})
+      const partyhost = await party.partyHost().first()
+      const address = await party.address().first()
+      data.party = party
+      data.partyhost = partyhost
+      data.address = address
+      
+      return response.send({data})
     } catch (error) {
       return response.status(400).send({error:error.message})
     }
