@@ -13,6 +13,7 @@ class PartySchema extends Schema {
       table.integer('address_id')
       table.string('costume')
       table.string('present_store')
+      table.string('invite_path_image',256)
       table.integer('owner').notNullable()
       table.timestamps()
     })

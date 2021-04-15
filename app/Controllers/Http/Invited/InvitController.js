@@ -1,6 +1,7 @@
 'use strict'
 const Party = use('App/Models/Party')
 const Invited = use('App/Models/Invited')
+const PresentLink = use('App/Models/PresentLink')
 class InvitController {
    /**
    * Display a single invite.
@@ -25,11 +26,13 @@ class InvitController {
       if(!party){
         return response.status(400).send({data:null})
       }
+      const online_presents = await party.presentLinks().fetch()
       const partyhost = await party.partyHost().first()
       const address = await party.address().first()
       data.party = party
       data.partyhost = partyhost
       data.address = address
+      data.presentLinks = online_presents
 
       return response.send({data})
     } catch (error) {

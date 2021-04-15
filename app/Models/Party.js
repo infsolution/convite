@@ -14,6 +14,9 @@ class Party extends Model {
   inviteds(){
     return this.hasMany('App/Models/Invited')
   }
+  presentLinks(){
+    return this.hasMany('App/Models/PresentLink')
+  }
 }
 
 module.exports = Party

@@ -1,6 +1,7 @@
 'use strict'
 const Party = use('App/Models/Party')
 const User = use('App/Models/User')
+const Helpers = use('Helpers')
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -41,8 +42,26 @@ class PartyController {
     try {
       const data = request.all()
       const party = await Party.create({...data, owner:auth.user.id})
+      const photo = request.file('file',{
+        types: ['image'],
+        size: '3mb'
+      })
+      if(photo){
+        await photo.move(Helpers.tmpPath('photos'),{
+          //name: `${Date.now()}_${file.clientName.slice(-12)}`.toLowerCase().replace(" ","_"),
+          name: `${Date.now()}_${photo.clientName.slice(-12)}`.toLocaleLowerCase().replace(/ /g, "_"),
+          overwrite: true
+        })
+        if(!photo.moved()){
+          return photo.errors()
+        }
+        console.log(photo)
+        party.invite_path_image = photo.fileName
+        await party.save()
+      }
       return response.status(201).send({party})
     } catch (error) {
+      console.log(error)
       return response.status(400).send({error:error.message})
     }
 
