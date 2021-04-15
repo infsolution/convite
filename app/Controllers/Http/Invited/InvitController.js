@@ -16,21 +16,21 @@ class InvitController {
       const data = {}
       const invited = await Invited.query().where('id',params.id).first()
       if(!invited){
-        return response.status(400).send({error: 'Dados não encontrados!'})
+        return response.status(400).send({data:null})
       }
       data.invited = invited
       const qrcode = await invited.qrcode().first()
       data.qrcode = qrcode
       const party = await Party.query().where('id',invited.party_id).first()
       if(!party){
-        return response.status(400).send({error: 'Dados não encontrados!'})
+        return response.status(400).send({data:null})
       }
       const partyhost = await party.partyHost().first()
       const address = await party.address().first()
       data.party = party
       data.partyhost = partyhost
       data.address = address
-      
+
       return response.send({data})
     } catch (error) {
       return response.status(400).send({error:error.message})
