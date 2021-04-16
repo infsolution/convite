@@ -11,7 +11,7 @@ class InvitedSchema extends Schema {
       table.string('phone')
       table.string('slug').notNullable().unique()
       table.integer('number_companions').notNullable().defaultTo(0)
-      table.boolean('confirmation').notNullable().defaultTo(false)
+      table.enu('confirmation',['VOU','NÃO VOU', 'SEM RESPOSTA']).notNullable().defaultTo('SEM RESPOSTA')
       table.date('date_confirmation')
       table.timestamps()
       table.integer('party_id')

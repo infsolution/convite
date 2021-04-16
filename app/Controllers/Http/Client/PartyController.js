@@ -55,7 +55,6 @@ class PartyController {
         if(!photo.moved()){
           return photo.errors()
         }
-        console.log(photo)
         party.invite_path_image = photo.fileName
         await party.save()
       }

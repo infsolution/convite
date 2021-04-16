@@ -19,6 +19,7 @@ const Route = use('Route')
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
+Route.get('/v1/download/img/:name', 'DownloadController.img').as('download.img')
 require('./auth')
 require('./admin')
 require('./client')

@@ -26,6 +26,7 @@ class InvitController {
       if(!party){
         return response.status(400).send({data:null})
       }
+      party.invite_path_image = `${request.protocol()}://${request.hostname()}:3333/v1/download/img/${party.invite_path_image}`
       const online_presents = await party.presentLinks().fetch()
       const partyhost = await party.partyHost().first()
       const address = await party.address().first()
@@ -33,10 +34,35 @@ class InvitController {
       data.partyhost = partyhost
       data.address = address
       data.presentLinks = online_presents
-
       return response.send({data})
     } catch (error) {
       return response.status(400).send({error:error.message})
+    }
+  }
+
+  /**
+   * Update invited details.
+   * PUT or PATCH inviteds/:id
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   */
+  async update ({ params, request, response }) {
+    try {
+      const confirm = request.input('confirm')
+      const today = new Date()
+      const year = today.getUTCFullYear()
+      const month = `0${today.getUTCMonth()+1}`.slice(-2)
+      const day = `0${today.getUTCDate()}`.slice(-2)
+      const invited = await Invited.find(params.id)
+      invited.confirmation = confirm
+      invited.date_confirmation = `${year}-${month}-${day}`
+      await invited.save()
+      return response.send({result:true})
+    } catch (error) {
+      console.log(error)
+      return response.status(400).send({result: false})
     }
   }
 }
