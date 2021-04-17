@@ -1,7 +1,7 @@
 'use strict'
 const Party = use('App/Models/Party')
 const Invited = use('App/Models/Invited')
-const PresentLink = use('App/Models/PresentLink')
+const Tools = use('App/Utils/Tools')
 class InvitController {
    /**
    * Display a single invite.
@@ -15,6 +15,7 @@ class InvitController {
   async invite ({ params, request, response }) {
     try {
       const data = {}
+      const tools = new Tools()
       const invited = await Invited.query().where('id',params.id).first()
       if(!invited){
         return response.status(400).send({data:null})
@@ -27,13 +28,16 @@ class InvitController {
         return response.status(400).send({data:null})
       }
       party.invite_path_image = `${request.protocol()}://${request.hostname()}:3333/v1/download/img/${party.invite_path_image}`
-      const online_presents = await party.presentLinks().fetch()
+      const online_presents = await party.presents().fetch()
       const partyhost = await party.partyHost().first()
       const address = await party.address().first()
+      const galery = await party.galery().fetch()
       data.party = party
       data.partyhost = partyhost
       data.address = address
-      data.presentLinks = online_presents
+      data.presents = online_presents
+      data.galery = await tools.setUrl(galery, request)
+      //console.log(tools.setUrl(galery, request))
       return response.send({data})
     } catch (error) {
       return response.status(400).send({error:error.message})

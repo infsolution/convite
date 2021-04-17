@@ -14,8 +14,11 @@ class Party extends Model {
   inviteds(){
     return this.hasMany('App/Models/Invited')
   }
-  presentLinks(){
+  presents(){
     return this.hasMany('App/Models/PresentLink')
+  }
+  galery(){
+    return this.hasMany('App/Models/Photo')
   }
 }
 

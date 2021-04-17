@@ -102,6 +102,9 @@ class PartyController {
       const data = request.all()
       const party = await Party.query().where('id', params.id)
       .where('owner', auth.user.id).first()
+      if(!party){
+        return response.status(404).send({message:'Festa não encontrada!'})
+      }
       party.merge({...data})
       await party.save()
       return response.send({party})
@@ -122,6 +125,12 @@ class PartyController {
     try {
       const party = await Party.query().where('id', params.id)
       .where('owner', auth.user.id).first()
+      if(!party){
+        return response.status(404).send({message:'Festa não encontrada!'})
+      }
+      if(party.owner != auth.user.id){
+        return response.status(401).send({message:'Você não tem permissão para excluir essa festa!'})
+      }
       await party.delete()
       return response.status(204).send({})
     } catch (error) {
