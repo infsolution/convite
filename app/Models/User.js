@@ -22,6 +22,10 @@ class User extends Model {
   }
 
 
+  static get hidden(){
+    return ['password','username']
+  }
+
   static get traits () {
     return [
       '@provider:Adonis/Acl/HasRole',
