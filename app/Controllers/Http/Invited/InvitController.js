@@ -2,6 +2,8 @@
 const Party = use('App/Models/Party')
 const Invited = use('App/Models/Invited')
 const Tools = use('App/Utils/Tools')
+const QRCode = use('qrcode')
+const Helpers = use('Helpers')
 class InvitController {
    /**
    * Display a single invite.
@@ -67,6 +69,16 @@ class InvitController {
     } catch (error) {
       console.log(error)
       return response.status(400).send({result: false})
+    }
+  }
+
+  async makeCode({ params, request, response }){
+    try {
+      await QRCode.toFile('C:\Users\1\Documents\tools\ADONIS\CONVITE\convite\public',request.input('data'))
+      return response.send()
+    } catch (error) {
+      console.log(error)
+      return response.status(400).send({message:error.message})
     }
   }
 }
