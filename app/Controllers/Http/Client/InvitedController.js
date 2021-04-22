@@ -45,7 +45,7 @@ class InvitedController {
     try {
       const data = request.all()
       let name = data.name.toLowerCase()
-      name = name.replace(/ /g, "-")
+      name = `${name.replace(/ /g, "-")}${data.phone}${data.party_id}`
       const party = await Party.find(data.party_id)
       if(!party){
         return response.status(404).send({message:'Festa não encontrada!'})

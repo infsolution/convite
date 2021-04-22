@@ -8,7 +8,11 @@ class Tools extends Model {
     const imagesUrl = []
     await Promise.all(
       galery.rows.map(async photo=>{
-        imagesUrl.push(`${request.protocol()}://${request.hostname()}:3333/v1/download/img/${photo.path}`)
+        imagesUrl.push({
+          path:`${request.protocol()}://${request.hostname()}:3333/v1/download/img/${photo.path}`,
+          id:photo.id
+          }
+        )
       })
     )
     return imagesUrl
