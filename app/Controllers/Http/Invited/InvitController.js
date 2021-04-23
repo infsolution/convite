@@ -27,7 +27,7 @@ class InvitController {
       const qrcode = await invited.qrcode().first()
       data.qrcode = null
       if(qrcode){
-        data.qrcode = `${request.protocol()}://${request.hostname()}:3333/v1/download/img/${qrcode.path}`
+        data.qrcode = `${request.protocol()}://${request.hostname()}:8080/v1/download/img/${qrcode.path}`
       }
       const party = await Party.query().where('id',invited.party_id).first()
       if(!party){
