@@ -33,7 +33,7 @@ class InvitController {
       if(!party){
         return response.status(400).send({data:null})
       }
-      party.invite_path_image = `${request.protocol()}://${request.hostname()}:3333/v1/download/img/${party.invite_path_image}`
+      party.invite_path_image = `${request.protocol()}://${request.hostname()}:8080/v1/download/img/${party.invite_path_image}`
       const online_presents = await party.presents().fetch()
       const partyhost = await party.partyHost().first()
       const address = await party.address().first()
