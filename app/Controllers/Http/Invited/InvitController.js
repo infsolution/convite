@@ -74,7 +74,7 @@ class InvitController {
       invited.date_confirmation = `${year}-${month}-${day}`
       await invited.save()
       if(confirm === 'VOU'){
-        const file_data = `${request.protocol()}://${request.hostname()}:3333/v1/checkin/${invited.slug}`
+        const file_data = `${request.protocol()}://${request.hostname()}:8080/v1/checkin/${invited.slug}`
         const file_name = `${file_data.replace(/['/',':','.']/g,"_")}.png`
         const path = `tmp/qrcodes/${file_name}`
         await QRCode.toFile(path,file_data)
