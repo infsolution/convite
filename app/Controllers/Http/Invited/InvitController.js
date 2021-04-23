@@ -27,13 +27,13 @@ class InvitController {
       const qrcode = await invited.qrcode().first()
       data.qrcode = null
       if(qrcode){
-        data.qrcode = `${request.protocol()}://${request.hostname()}:8080/v1/download/img/${qrcode.path}`
+        data.qrcode = `${request.protocol()}://${request.hostname()}/v1/download/img/${qrcode.path}`
       }
       const party = await Party.query().where('id',invited.party_id).first()
       if(!party){
         return response.status(400).send({data:null})
       }
-      party.invite_path_image = `${request.protocol()}://${request.hostname()}:8080/v1/download/img/${party.invite_path_image}`
+      party.invite_path_image = `${request.protocol()}://${request.hostname()}/v1/download/img/${party.invite_path_image}`
       const online_presents = await party.presents().fetch()
       const partyhost = await party.partyHost().first()
       const address = await party.address().first()
@@ -74,7 +74,7 @@ class InvitController {
       invited.date_confirmation = `${year}-${month}-${day}`
       await invited.save()
       if(confirm === 'VOU'){
-        const file_data = `${request.protocol()}://${request.hostname()}:8080/v1/checkin/${invited.slug}`
+        const file_data = `${request.protocol()}://${request.hostname()}/v1/checkin/${invited.slug}`
         const file_name = `${file_data.replace(/['/',':','.']/g,"_")}.png`
         const path = `tmp/photos/${file_name}`
         await QRCode.toFile(path,file_data)
