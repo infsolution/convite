@@ -76,7 +76,7 @@ class InvitController {
       if(confirm === 'VOU'){
         const file_data = `${request.protocol()}://${request.hostname()}:8080/v1/checkin/${invited.slug}`
         const file_name = `${file_data.replace(/['/',':','.']/g,"_")}.png`
-        const path = `tmp/qrcodes/${file_name}`
+        const path = `tmp/photos/${file_name}`
         await QRCode.toFile(path,file_data)
         const qrcode = await Qrcode.create({path:file_name, invited_id:invited.id})
       }
@@ -90,7 +90,7 @@ class InvitController {
   async makeCode({ params, request, response }){
     try {
       const file_data = request.input('data')
-      const file_name = `tmp/qrcodes/${file_data.replace(/['/',':','.']/g,"_")}.png`
+      const file_name = `tmp/photos/${file_data.replace(/['/',':','.']/g,"_")}.png`
       await QRCode.toFile(file_name,file_data)
       return response.send({file_name})
     } catch (error) {
