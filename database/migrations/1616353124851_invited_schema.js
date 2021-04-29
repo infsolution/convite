@@ -13,6 +13,7 @@ class InvitedSchema extends Schema {
       table.integer('number_companions').notNullable().defaultTo(0)
       table.enu('confirmation',['VOU','NÃO VOU', 'SEM RESPOSTA']).notNullable().defaultTo('SEM RESPOSTA')
       table.date('date_confirmation')
+      table.boolean('checked').notNullable().defaultTo(false)
       table.string('message',1024)
       table.timestamps()
       table.integer('party_id')

@@ -98,6 +98,31 @@ class InvitController {
       return response.status(400).send({message:error.message})
     }
   }
+  async checkin({ params, request, response }){
+    try {
+      const date_now = new Date()
+      const tools = new Tools()
+      const invited = await Invited.findBy('slug', params.slug)
+      if(!invited){
+        return response.status(404).send({message:'Convidado não encontrado! Token inválido.'})
+      }
+      const party = await Party.find(invited.party_id)
+      console.log(await tools.compareDateHour({date:party.date,hour:party.hour, interval:2}))
+      if(!party){
+        return response.status(404).send({message:'Token Inválido!'})
+      }
+
+      if(invited.checked){
+        return response.status(401).send({message:'O convidado já fez checkin!'})
+      }
+      invited.checked = true
+      await invited.save()
+      
+      return response.send({message:'Checkin realizado com sucesso!'})
+    } catch (error) {
+      return response.status(400).send({message:error.message}) 
+    }
+  }
 }
 
 module.exports = InvitController
