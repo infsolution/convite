@@ -39,6 +39,7 @@ class InvitController {
       const address = await party.address().first()
       const galery = await party.galery().fetch()
       data.party = party
+      data.party.day = party.date.getUTCDay()
       data.partyhost = partyhost
       data.address = address
       data.presents = online_presents
