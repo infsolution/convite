@@ -21,16 +21,18 @@ class Tools extends Model {
   async compareDateHour({date, hour, interval}){
    try {
     const date_now = new Date()
-    if(date_now.getUTCFullYear() == date.getUTCFullYear() && 
+    if(date_now.getUTCFullYear() == date.getUTCFullYear() &&
     date_now.getUTCMonth() == date.getUTCMonth() &&
-    date_now.getUTCDate() == date.getUTCDate()){
+    date_now.getUTCDate() == date.getUTCDate() &&
+    date_now.getUTCHours()+interval >= hour.slice(0,2)
+    ){
       return true
     }
     return false
    } catch (error) {
     return false
    }
-   
+
   }
 }
 

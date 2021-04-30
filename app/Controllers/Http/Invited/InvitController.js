@@ -107,7 +107,9 @@ class InvitController {
         return response.status(404).send({message:'Convidado não encontrado! Token inválido.'})
       }
       const party = await Party.find(invited.party_id)
-      console.log(await tools.compareDateHour({date:party.date,hour:party.hour, interval:2}))
+      if(! await tools.compareDateHour({date:party.date,hour:party.hour, interval:party.interval})){
+        return response.status(401).send({message: 'Horário não permitido para o Checkin'})
+      }
       if(!party){
         return response.status(404).send({message:'Token Inválido!'})
       }
@@ -117,10 +119,10 @@ class InvitController {
       }
       invited.checked = true
       await invited.save()
-      
+
       return response.send({message:'Checkin realizado com sucesso!'})
     } catch (error) {
-      return response.status(400).send({message:error.message}) 
+      return response.status(400).send({message:error.message})
     }
   }
 }
