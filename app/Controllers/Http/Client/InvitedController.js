@@ -32,6 +32,20 @@ class InvitedController {
     }
   }
 
+  async inviteds({ request, response, params, auth }){
+    try {
+      const party = await Party.query().where('owner', auth.user.id)
+      .where('id', params.id).first()
+      if(!party){
+        return response.status(404).send({message:'Festa não encontrada!'})
+      }
+      const inviteds = await party.inviteds().fetch()
+      return response.send({inviteds})
+    } catch (error) {
+      return response.status(400).send({error:error.message})
+    }
+  }
+
 
   /**
    * Create/save a new invited.

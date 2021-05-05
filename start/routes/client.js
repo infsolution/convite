@@ -13,4 +13,5 @@ Route.group(()=>{
     Route.resource('invited','InvitedController').apiOnly()
     Route.resource('photo','PhotoController').apiOnly()
     Route.resource('present','PresentController').apiOnly()
+    Route.get('party/:id/inviteds', 'InvitedController.inviteds').as('inviteds')
 }).prefix('v1/client').namespace('Client').middleware(['auth', 'is:client'])
