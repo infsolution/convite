@@ -71,16 +71,17 @@ class InvitController {
       const month = `0${today.getUTCMonth()+1}`.slice(-2)
       const day = `0${today.getUTCDate()}`.slice(-2)
 
-      invited.confirmation = confirm
-      invited.date_confirmation = `${year}-${month}-${day}`
-      await invited.save()
-      if(confirm === 'VOU'){
-        const file_data = `${request.protocol()}://${request.hostname()}/v1/checkin/${invited.slug}`
+      if(confirm === 'VOU' && invited.confirmation !== 'VOU'){
+        //const file_data = `${request.protocol()}://${request.hostname()}/v1/checkin/${invited.slug}`
+        const file_data = `https://www.confesta.com.br/checkin/${invited.slug}`
         const file_name = `${file_data.replace(/['/',':','.']/g,"_")}.png`
         const path = `tmp/photos/${file_name}`
         await QRCode.toFile(path,file_data)
         const qrcode = await Qrcode.create({path:file_name, invited_id:invited.id})
+        invited.date_confirmation = `${year}-${month}-${day}`
       }
+      invited.confirmation = confirm
+      await invited.save()
       return response.send({result:true})
     } catch (error) {
       console.log(error)
