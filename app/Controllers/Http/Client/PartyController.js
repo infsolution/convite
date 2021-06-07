@@ -48,7 +48,6 @@ class PartyController {
       })
       if(photo){
         await photo.move(Helpers.tmpPath('photos'),{
-          //name: `${Date.now()}_${file.clientName.slice(-12)}`.toLowerCase().replace(" ","_"),
           name: `${Date.now()}_${photo.clientName.slice(-12)}`.toLocaleLowerCase().replace(/ /g, "_"),
           overwrite: true
         })

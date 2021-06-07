@@ -24,7 +24,7 @@ class Tools extends Model {
     if(date_now.getUTCFullYear() == date.getUTCFullYear() &&
     date_now.getUTCMonth() == date.getUTCMonth() &&
     date_now.getUTCDate() == date.getUTCDate() &&
-    date_now.getUTCHours()+interval >= hour.slice(0,2)
+    date_now.getUTCHours()+interval >= parseInt(hour.slice(0,2))
     ){
       return true
     }

@@ -1,14 +1,14 @@
 'use strict'
 
 const Database = use('Database')
-
+const User = use('App/Models/User')
 const Role = use('Role')
 class AuthController {
     async register({request, response}){
         const trx = await Database.beginTransaction()
         try {
             const {name, email, password, phone} = request.all()
-            const username = name.slice(0,5)+phone
+            const username = name.slice(1,5)+phone
             const user = await User.create({name, username, email, password, phone}, trx)
             const userRole = await Role.findBy('slug', 'client')
             await user.roles().attach([userRole.id], null, trx)
