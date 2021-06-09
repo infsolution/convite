@@ -73,7 +73,7 @@ class InvitController {
 
       if(confirm === 'VOU' && invited.confirmation !== 'VOU'){
         //const file_data = `http://localhost:3000/checkin/${invited.slug}`
-        const file_data = `http://www.confesta.com.br/checkin/${invited.slug}`
+        const file_data = `https://www.confesta.com.br/checkin/${invited.slug}`
         const file_name = `${file_data.replace(/['/',':','.']/g,"_")}.png`
         const path = `tmp/photos/${file_name}`
         await QRCode.toFile(path,file_data)
