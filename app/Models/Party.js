@@ -2,7 +2,7 @@
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
-
+class Party extends Model {
 
   address(){
     return this.belongsTo('App/Models/Address')
