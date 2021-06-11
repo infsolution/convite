@@ -2,6 +2,7 @@
 const Party = use('App/Models/Party')
 const User = use('App/Models/User')
 const Helpers = use('Helpers')
+const imageToBase64 = require('image-to-base64')
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -64,7 +65,47 @@ class PartyController {
     }
 
   }
+/**
+   * Add image invit to party.
+   * PUT
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   * @param {Auth} ctx.auth
+   */
 
+  async addInvit({params, request, response, auth}){
+    try {
+      const party = await Party.query().where('id',params.party_id).where('owner',auth.user.id).first()
+      const photo = request.file('file',{
+        types: ['image'],
+        size: '3mb'
+      })
+      if(photo){
+        await photo.move(Helpers.tmpPath('photos'),{
+          name: `${Date.now()}_${photo.clientName.slice(-12)}`.toLocaleLowerCase().replace(/ /g, "_"),
+          overwrite: true
+        })
+        if(!photo.moved()){
+          return photo.errors()
+        }
+        imageToBase64(`tmp/photos/${photo.fileName}`).then(
+          (response)=>{
+            party.base64 = response
+          }
+        ).catch((error)=>{
+          console.log(error)
+        })
+        party.invite_path_image = photo.fileName
+        await party.save()
+      }
+      return response.send({id:party.id})
+    } catch (error) {
+      console.log(error)
+      return response.send({error})
+    }
+  }
   /**
    * Display a single party.
    * GET parties/:id

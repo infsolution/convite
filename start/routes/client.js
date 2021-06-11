@@ -8,6 +8,7 @@ const Route = use('Route')
 Route.group(()=>{
     Route.resource('profile','ProfileController').apiOnly()
     Route.resource('party','PartyController').apiOnly()
+    Route.put('add-invit/:party_id','PartyController.addInvit').as('add-invit')
     Route.resource('party-host','PartyHostController').apiOnly()
     Route.resource('address','AddressController').apiOnly()
     Route.resource('invited','InvitedController').apiOnly()

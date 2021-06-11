@@ -4,6 +4,11 @@
 const Model = use('Model')
 
 class Party extends Model {
+  static get hidden(){
+    return ['base64']
+  }
+
+
   address(){
     return this.belongsTo('App/Models/Address')
   }

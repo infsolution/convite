@@ -15,6 +15,7 @@ class PartySchema extends Schema {
       table.string('present_store')
       table.integer('interval').notNullable().defaultTo(2)
       table.string('invite_path_image',256)
+      table.text('base64')
       table.integer('owner').notNullable()
       table.timestamps()
     })
