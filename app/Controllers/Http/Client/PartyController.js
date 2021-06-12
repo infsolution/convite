@@ -76,18 +76,21 @@ class PartyController {
    */
 
   async addInvit({params, request, response, auth}){
+    console.log(request.file)
     try {
       const party = await Party.query().where('id',params.party_id).where('owner',auth.user.id).first()
       const photo = request.file('file',{
         types: ['image'],
         size: '3mb'
       })
+      console.log('Foto',photo)
       if(photo){
         await photo.move(Helpers.tmpPath('photos'),{
           name: `${Date.now()}_${photo.clientName.slice(-12)}`.toLocaleLowerCase().replace(/ /g, "_"),
           overwrite: true
         })
         if(!photo.moved()){
+          console.log('Foto error', photo.errors())
           return photo.errors()
         }
         imageToBase64(`tmp/photos/${photo.fileName}`).then(
