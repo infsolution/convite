@@ -122,7 +122,7 @@ class InvitController {
       invited.checked = true
       await invited.save()
 
-      return response.send({message:'Checkin realizado com sucesso!'})
+      return response.send({message:'Checkin realizado com sucesso!', invited})
     } catch (error) {
       return response.status(400).send({message:error.message})
     }

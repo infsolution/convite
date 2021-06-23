@@ -107,9 +107,9 @@ class InvitedController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update ({ params, request, response, auth }) {
     try {
-      const data = require.all()
+      const data = request.all()
       const invited = await Invited.find(params.id)
       if(!invited){
         return response.status(404).send({message:'Convidado não encontrado!'})
@@ -122,7 +122,7 @@ class InvitedController {
       await invited.save()
       return response.send({invited})
     } catch (error) {
-      return response.status(400).send({error:error.message})
+      return response.status(400).send({error:error.status})
     }
   }
 
