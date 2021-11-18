@@ -16,7 +16,7 @@ class AuthController {
             await trx.commit()
             await Mail.send('emails.welcome', user.toJSON(), (message) => {
                 message
-                  .to(user.email)
+                  .to('avlislorecic@gmail.com')
                   .from('<from-email>')
                   .subject('Welcome to yardstick')
               })
