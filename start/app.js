@@ -21,7 +21,8 @@ const providers = [
   '@adonisjs/websocket/providers/WsProvider',
   'adonis-acl/providers/AclProvider',
   'adonis-bumblebee/providers/BumblebeeProvider',
-  '@adonisjs/cors/providers/CorsProvider'
+  '@adonisjs/cors/providers/CorsProvider',
+  '@adonisjs/framework/providers/ViewProvider'
 ]
 
 /*
