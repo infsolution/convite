@@ -3,6 +3,7 @@
 const Database = use('Database')
 const User = use('App/Models/User')
 const Role = use('Role')
+const Mail = use('Mail')
 class AuthController {
     async register({request, response}){
         const trx = await Database.beginTransaction()
@@ -13,6 +14,12 @@ class AuthController {
             const userRole = await Role.findBy('slug', 'client')
             await user.roles().attach([userRole.id], null, trx)
             await trx.commit()
+            await Mail.send('emails.welcome', user.toJSON(), (message) => {
+                message
+                  .to(user.email)
+                  .from('<from-email>')
+                  .subject('Welcome to yardstick')
+              })
             return response.status(201).send({user})
         } catch (error) {
             console.log(error)
